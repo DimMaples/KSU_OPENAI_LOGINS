@@ -7,6 +7,7 @@ from flask import Flask, Response, request, session ,jsonify, url_for, redirect,
 from authlib.integrations.flask_client import OAuth
 from dotenv import load_dotenv
 
+import identity.web
 from flask_session import Session
 
 #from flask_login import (
@@ -21,9 +22,11 @@ load_dotenv()
 
 app = Flask(__name__)
 
-
+#app.config['SECRET_KEY'] = 'ewqtetwyewyqtewtyetqweqwtetqwyeqt'
 app.config['SESSION_TYPE'] = 'filesystem'
-
+#app.secret_key='ewqtetwyewyqtewtyetqweqwtetqwyeqt'
+#adding login page
+#app.secret_key='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'
 app.config.update(
     SECRET_KEY=os.urandom(24)
 )
@@ -36,13 +39,15 @@ oauth = OAuth(app)
 
 @app.route('/google/')
 def google():
-    
+    GOOGLE_CLIENT_ID = '953786345984-i55u5b5dorivgo8qjfr39jdja4akqgsk.apps.googleusercontent.com'
+    GOOGLE_CLIENT_SECRET = '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'
+    CONF_URL = 'https://accounts.google.com/.well-known/openid-configuration'
     
     oauth.register(
         name='google',
         client_id=GOOGLE_CLIENT_ID,
         client_secret=GOOGLE_CLIENT_SECRET,
-        #server_metadata_url=CONF_URL,
+        server_metadata_url=CONF_URL,
         client_kwargs={
             'scope': 'openid email profile'
         }
@@ -56,7 +61,7 @@ def google():
 def google_auth():
     token = oauth.google.authorize_access_token()
     user = oauth.google.parse_id_token(token)
-    
+    print(" Google User ", user)
     return redirect('/chat_app')
 
 #@app.route("/", defaults={"path": "login.html"})
@@ -67,7 +72,12 @@ def google_auth():
 #trying out to start with MS to at least it's to work
 from werkzeug.middleware.proxy_fix import ProxyFix
 
-
+auth = identity.web.Auth(
+    session=session,
+    authority=' https://login.microsoftonline.com/3846264d-843d-4fb7-b9b1-2cb81cd15884',
+    client_id='8e465ea7-7158-422c-9a92-4122e8a4ab17',
+    client_credential="vKX8Q~.dL3zEQAolokjVyMnhovlHwrYwzPDzGbmS"
+)
 
 @app.route("/login")
 def login():
