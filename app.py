@@ -2,6 +2,7 @@ import json
 import os
 import logging
 import requests
+import openai
 
 from flask import Flask, Response, request, session ,jsonify, url_for, redirect, render_template
 from authlib.integrations.flask_client import OAuth
