@@ -7,7 +7,6 @@ from flask import Flask, Response, request, session ,jsonify, url_for, redirect,
 from authlib.integrations.flask_client import OAuth
 from dotenv import load_dotenv
 
-import identity.web
 from flask_session import Session
 
 #from flask_login import (
