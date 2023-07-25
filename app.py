@@ -33,8 +33,6 @@ Session(app)
 
 oauth = OAuth(app)
 
-
-
 @app.route('/google/')
 def google():
     GOOGLE_CLIENT_ID = os.environ.get('GOOGLE_CLIENT_ID')
@@ -68,7 +66,7 @@ def google_auth():
 #    return redirect("/chat_app")
 
 #trying out to start with MS to at least it's to work
-from werkzeug.middleware.proxy_fix import ProxyFix
+#from werkzeug.middleware.proxy_fix import ProxyFix
 
 auth = identity.web.Auth(
     session=session,
