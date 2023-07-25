@@ -22,11 +22,9 @@ load_dotenv()
 
 app = Flask(__name__)
 
-#app.config['SECRET_KEY'] = 'ewqtetwyewyqtewtyetqweqwtetqwyeqt'
+
 app.config['SESSION_TYPE'] = 'filesystem'
-#app.secret_key='ewqtetwyewyqtewtyetqweqwtetqwyeqt'
-#adding login page
-#app.secret_key='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'
+
 app.config.update(
     SECRET_KEY=os.urandom(24)
 )
@@ -35,13 +33,13 @@ Session(app)
 
 oauth = OAuth(app)
 
-#redirect path 'https://ksu24ai-restore-bf97.azurewebsites.net/.auth/login/aad/callback'
+
 
 @app.route('/google/')
 def google():
-    GOOGLE_CLIENT_ID = '953786345984-i55u5b5dorivgo8qjfr39jdja4akqgsk.apps.googleusercontent.com'
-    GOOGLE_CLIENT_SECRET = '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'
-    CONF_URL = 'https://accounts.google.com/.well-known/openid-configuration'
+    GOOGLE_CLIENT_ID = os.environ.get('GOOGLE_CLIENT_ID')
+    GOOGLE_CLIENT_SECRET = os.environ.get('GOOGLE_CLIENT_SECRET')
+    CONF_URL = os.environ.get('CONF_URL')
     
     oauth.register(
         name='google',
@@ -74,16 +72,16 @@ from werkzeug.middleware.proxy_fix import ProxyFix
 
 auth = identity.web.Auth(
     session=session,
-    authority=' https://login.microsoftonline.com/3846264d-843d-4fb7-b9b1-2cb81cd15884',
-    client_id='8e465ea7-7158-422c-9a92-4122e8a4ab17',
-    client_credential="vKX8Q~.dL3zEQAolokjVyMnhovlHwrYwzPDzGbmS"
+    authority= os.environ.get('authority'),
+    client_id= os.environ.get('client_id'),
+    client_credential= os.environ.get('client_credentials')
 )
 
 @app.route("/login")
 def login():
     return render_template("login.html", version="1", **auth.log_in(
         ["User.ReadBasic.All"], # Have user consent to scopes during log-in
-        redirect_uri="https://ksu24ai-restore-bf97.azurewebsites.net/.auth/login/aad/callback",
+        redirect_uri= os.environ.get('redirect_uri'),
     ))
 
 @app.route("/chat_app", defaults={"path": "index.html"})
