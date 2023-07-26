@@ -64,11 +64,6 @@ def google_auth():
     print(" Google User ", user)
     return redirect('/chat_app')
 
-#@app.route("/", defaults={"path": "login.html"})
-#def home():
-    
-#    return redirect("/chat_app")
-
 #trying out to start with MS to at least it's to work
 from werkzeug.middleware.proxy_fix import ProxyFix
 
