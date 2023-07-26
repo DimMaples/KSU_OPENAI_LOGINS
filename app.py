@@ -2,7 +2,6 @@ import json
 import os
 import logging
 import requests
-import openai
 
 from flask import Flask, Response, request, session ,jsonify, url_for, redirect, render_template
 from authlib.integrations.flask_client import OAuth
@@ -23,9 +22,11 @@ load_dotenv()
 
 app = Flask(__name__)
 
-
+app.config['SECRET_KEY'] = 'ewqtetwyewyqtewtyetqweqwtetqwyeqt'
 app.config['SESSION_TYPE'] = 'filesystem'
 
+#adding login page
+#app.secret_key='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'
 app.config.update(
     SECRET_KEY=os.urandom(24)
 )
@@ -33,6 +34,8 @@ app.config.update(
 Session(app)
 
 oauth = OAuth(app)
+
+#redirect path 'https://ksu24ai-restore-bf97.azurewebsites.net/.auth/login/aad/callback'
 
 @app.route('/google/')
 def google():
@@ -67,23 +70,29 @@ def google_auth():
 #    return redirect("/chat_app")
 
 #trying out to start with MS to at least it's to work
-#from werkzeug.middleware.proxy_fix import ProxyFix
+from werkzeug.middleware.proxy_fix import ProxyFix
 
 auth = identity.web.Auth(
     session=session,
-    authority= os.environ.get('authority'),
-    client_id= os.environ.get('client_id'),
-    client_credential= os.environ.get('client_credentials')
+    authority=os.environ.get('authority'),
+    client_id=os.environ.get('client_id'),
+    client_credential=os.environ.get('client_credential')
 )
 
 @app.route("/login")
 def login():
     return render_template("login.html", version="1", **auth.log_in(
         ["User.ReadBasic.All"], # Have user consent to scopes during log-in
-        redirect_uri= os.environ.get('redirect_uri'),
+        redirect_uri="https://ksu24ai-restore-bf97.azurewebsites.net/.auth/login/aad/callback",
     ))
+@app.route("/select-login")
+def select_login():
+    return render_template("select.html")
 
-@app.route("/chat_app", defaults={"path": "index.html"})
+#@app.route("/chat_app")
+#def chat_app():
+#    return render_template("chat.html")
+
 @app.route("/", defaults={"path": "index.html"})
 @app.route("/<path:path>")
 def static_file(path):
