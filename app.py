@@ -81,10 +81,7 @@ def login():
 def select_login():
     return render_template("select.html")
 
-@app.route("/chat-bot", defaults={"path": "chat.html"})
-def chat_bot():
-    return render_template("chat.html")
-
+@app.route("/", defaults={"path": "index.html"})
 @app.route("/<path:path>")
 def static_file(path):
     return app.send_static_file(path)
