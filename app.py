@@ -74,7 +74,9 @@ auth = identity.web.Auth(
     client_id=os.environ.get('client_idd'),
     client_credential=os.environ.get('client_credential')
 )
-@app.route("/", defaults={"path": "index.html"})
+
+
+@app.route("/chat", defaults={"path": "index.html"})
 @app.route("/<path:path>")
 def static_file(path):
     return app.send_static_file(path)
@@ -89,6 +91,10 @@ def login():
 def select_login():
     return render_template("select.html")
 
+@app.route("/chat", defaults={"path": "index.html"})
+@app.route("/<path:path>")
+def static_file(path):
+    return app.send_static_file(path)
 
 
 # ACS Integration Settings
