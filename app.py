@@ -64,6 +64,10 @@ def google_auth():
     print(" Google User ", user)
     return redirect('/chat_app')
 
+#@app.route("/", defaults={"path": "login.html"})
+#def home():
+    
+#    return redirect("/chat_app")
 
 #trying out to start with MS to at least it's to work
 from werkzeug.middleware.proxy_fix import ProxyFix
@@ -75,12 +79,6 @@ auth = identity.web.Auth(
     client_credential=os.environ.get('client_credential')
 )
 
-
-@app.route("/chat", defaults={"path": "index.html"})
-@app.route("/<path:path>")
-def static_file(path):
-    return app.send_static_file(path)
-
 @app.route("/login")
 def login():
     return render_template("login.html", version="1", **auth.log_in(
@@ -91,11 +89,10 @@ def login():
 def select_login():
     return render_template("select.html")
 
-@app.route("/chat", defaults={"path": "index.html"})
+@app.route("/", defaults={"path": "index.html"})
 @app.route("/<path:path>")
 def static_file(path):
     return app.send_static_file(path)
-
 
 # ACS Integration Settings
 AZURE_SEARCH_SERVICE = os.environ.get("AZURE_SEARCH_SERVICE")
