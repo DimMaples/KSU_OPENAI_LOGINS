@@ -22,7 +22,7 @@ load_dotenv()
 
 app = Flask(__name__)
 
-app.config['SECRET_KEY'] = 'ewqtetwyewyqtewtyetqweqwtetqwyeqt'
+
 app.config['SESSION_TYPE'] = 'filesystem'
 
 #adding login page
@@ -80,6 +80,7 @@ def login():
         ["User.ReadBasic.All"], # Have user consent to scopes during log-in
         redirect_uri="https://ksu24ai-restore-bf97.azurewebsites.net/.auth/login/aad/callback",
     ))
+   
 @app.route("/select-login")
 def select_login():
     return render_template("select.html")
