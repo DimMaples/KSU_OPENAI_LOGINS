@@ -21,12 +21,10 @@ from flask_session import Session
 load_dotenv()
 
 app = Flask(__name__)
-
-
 app.config['SESSION_TYPE'] = 'filesystem'
 
 #adding login page
-#app.secret_key='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'
+
 app.config.update(
     SECRET_KEY=os.urandom(24)
 )
@@ -34,8 +32,6 @@ app.config.update(
 Session(app)
 
 oauth = OAuth(app)
-
-#redirect path 'https://ksu24ai-restore-bf97.azurewebsites.net/.auth/login/aad/callback'
 
 @app.route('/google/')
 def google():
@@ -85,7 +81,7 @@ def login():
 def select_login():
     return render_template("select.html")
 
-@app.route("/chat", defaults={"path": "index.html"})
+@app.route("/", defaults={"path": "index.html"})
 @app.route("/<path:path>")
 def static_file(path):
     return app.send_static_file(path)
