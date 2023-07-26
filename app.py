@@ -75,7 +75,7 @@ from werkzeug.middleware.proxy_fix import ProxyFix
 auth = identity.web.Auth(
     session=session,
     authority=os.environ.get('authority'),
-    client_id=os.environ.get('client_id'),
+    client_id=os.environ.get('client_idd'),
     client_credential=os.environ.get('client_credential')
 )
 
