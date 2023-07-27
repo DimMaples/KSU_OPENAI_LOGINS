@@ -78,7 +78,9 @@ def micro_redirect():
         #return redirect('/select-login')
     session['user']  = 'here'
     session['token'] = 'token'
-    return redirect("/")
+
+    return 1
+    #return redirect("/")
    
 @app.route("/select-login")
 def select_login():
@@ -89,7 +91,6 @@ def select_login():
 def static_file(path):
 #check session. if has login token then output chat
 #if not output select page
-    print(session)
     if 'user' in session and 'token' in session:
         return app.send_static_file(path)
     else :     
