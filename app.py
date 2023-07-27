@@ -60,7 +60,7 @@ def google_auth():
     #put to session
     session['user'] = user
     session['token']  = token
-    return redirect('/') #TO DO: change this when done coding
+    return redirect('https://ksu24ai.azurewebsites.net/.auth/login/google') #TO DO: change this when done coding
     
 @app.route("/login")
 def login():
@@ -69,7 +69,7 @@ def login():
         redirect_uri="https://ksu24ai-restore-bf97.azurewebsites.net/.auth/login/aad/callback",
     ))
 
-@app.route("/.auth/login/aad/callback")
+@app.route("/.auth/login/aad/callbackkk")
 def micro_redirect():
     result = auth.complete_log_in(request.args)
     if "error" in result:
@@ -84,8 +84,8 @@ def micro_redirect():
    
 @app.route("/select-login")
 def select_login():
-    print(session)
-    return render_template("select.html", session=session) 
+    
+    return render_template("select.html") 
    
 @app.route("/", defaults={"path": "index.html"})
 @app.route("/<path:path>")
