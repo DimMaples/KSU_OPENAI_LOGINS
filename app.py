@@ -79,7 +79,8 @@ def micro_redirect():
     session['user']  = 'here'
     session['token'] = 'token'
     
-    return redirect("/")
+    return session
+    #return redirect("/")
    
 @app.route("/select-login")
 def select_login():
