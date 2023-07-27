@@ -85,7 +85,7 @@ def micro_redirect():
 @app.route("/select-login")
 def select_login():
     print(session)
-    return render_template("select.html") 
+    return render_template("select.html", session=session) 
    
 @app.route("/", defaults={"path": "index.html"})
 @app.route("/<path:path>")
