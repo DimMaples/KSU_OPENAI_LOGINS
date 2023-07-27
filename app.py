@@ -74,10 +74,9 @@ def micro_redirect():
     result = auth.complete_log_in(request.args)
     if "error" in result:
         return redirect('/select-login')
-    else :
-        session['user']  = 'here'
-        session['token'] = 'token'
-        return redirect("/")
+    session['user']  = 'here'
+    session['token'] = 'token'
+    return redirect("/")
    
 @app.route("/select-login")
 def select_login():
@@ -88,7 +87,7 @@ def select_login():
 def static_file(path):
 #check session. if has login token then output chat
 #if not output select page
-    if session['user'] and session['token']:
+    if 'user' in session and 'token' in session:
         return app.send_static_file(path)
     else :     
         return redirect('/select-login')
@@ -119,17 +118,17 @@ AZURE_OPENAI_PREVIEW_API_VERSION = os.environ.get("AZURE_OPENAI_PREVIEW_API_VERS
 AZURE_OPENAI_STREAM = os.environ.get("AZURE_OPENAI_STREAM", "true")
 AZURE_OPENAI_MODEL_NAME = os.environ.get("AZURE_OPENAI_MODEL_NAME", "gpt-35-turbo") # Name of the model, e.g. 'gpt-35-turbo' or 'gpt-4'
 
-SHOULD_STREAM = True if AZURE_OPENAI_STREAM.lower() == "true" else False
+SHOULD_STREAM = AZURE_OPENAI_STREAM.lower() == "true"
 
 def is_chat_model():
-    if 'gpt-4' in AZURE_OPENAI_MODEL_NAME.lower() or AZURE_OPENAI_MODEL_NAME.lower() in ['gpt-35-turbo-4k', 'gpt-35-turbo-16k']:
-        return True
-    return False
+    return (
+        'gpt-4' in AZURE_OPENAI_MODEL_NAME.lower()
+        or AZURE_OPENAI_MODEL_NAME.lower()
+        in ['gpt-35-turbo-4k', 'gpt-35-turbo-16k']
+    )
 
 def should_use_data():
-    if AZURE_SEARCH_SERVICE and AZURE_SEARCH_INDEX and AZURE_SEARCH_KEY:
-        return True
-    return False
+    return bool(AZURE_SEARCH_SERVICE and AZURE_SEARCH_INDEX and AZURE_SEARCH_KEY)
 
 def prepare_body_headers_with_data(request):
     request_messages = request.json["messages"]
@@ -139,7 +138,9 @@ def prepare_body_headers_with_data(request):
         "temperature": float(AZURE_OPENAI_TEMPERATURE),
         "max_tokens": int(AZURE_OPENAI_MAX_TOKENS),
         "top_p": float(AZURE_OPENAI_TOP_P),
-        "stop": AZURE_OPENAI_STOP_SEQUENCE.split("|") if AZURE_OPENAI_STOP_SEQUENCE else None,
+        "stop": AZURE_OPENAI_STOP_SEQUENCE.split("|")
+        if AZURE_OPENAI_STOP_SEQUENCE
+        else None,
         "stream": SHOULD_STREAM,
         "dataSources": [
             {
@@ -149,19 +150,32 @@ def prepare_body_headers_with_data(request):
                     "key": AZURE_SEARCH_KEY,
                     "indexName": AZURE_SEARCH_INDEX,
                     "fieldsMapping": {
-                        "contentField": AZURE_SEARCH_CONTENT_COLUMNS.split("|") if AZURE_SEARCH_CONTENT_COLUMNS else [],
-                        "titleField": AZURE_SEARCH_TITLE_COLUMN if AZURE_SEARCH_TITLE_COLUMN else None,
-                        "urlField": AZURE_SEARCH_URL_COLUMN if AZURE_SEARCH_URL_COLUMN else None,
-                        "filepathField": AZURE_SEARCH_FILENAME_COLUMN if AZURE_SEARCH_FILENAME_COLUMN else None
+                        "contentField": AZURE_SEARCH_CONTENT_COLUMNS.split("|")
+                        if AZURE_SEARCH_CONTENT_COLUMNS
+                        else [],
+                        "titleField": AZURE_SEARCH_TITLE_COLUMN
+                        if AZURE_SEARCH_TITLE_COLUMN
+                        else None,
+                        "urlField": AZURE_SEARCH_URL_COLUMN
+                        if AZURE_SEARCH_URL_COLUMN
+                        else None,
+                        "filepathField": AZURE_SEARCH_FILENAME_COLUMN
+                        if AZURE_SEARCH_FILENAME_COLUMN
+                        else None,
                     },
-                    "inScope": True if AZURE_SEARCH_ENABLE_IN_DOMAIN.lower() == "true" else False,
+                    "inScope": AZURE_SEARCH_ENABLE_IN_DOMAIN.lower() == "true",
                     "topNDocuments": AZURE_SEARCH_TOP_K,
-                    "queryType": "semantic" if AZURE_SEARCH_USE_SEMANTIC_SEARCH.lower() == "true" else "simple",
-                    "semanticConfiguration": AZURE_SEARCH_SEMANTIC_SEARCH_CONFIG if AZURE_SEARCH_USE_SEMANTIC_SEARCH.lower() == "true" and AZURE_SEARCH_SEMANTIC_SEARCH_CONFIG else "",
-                    "roleInformation": AZURE_OPENAI_SYSTEM_MESSAGE
-                }
+                    "queryType": "semantic"
+                    if AZURE_SEARCH_USE_SEMANTIC_SEARCH.lower() == "true"
+                    else "simple",
+                    "semanticConfiguration": AZURE_SEARCH_SEMANTIC_SEARCH_CONFIG
+                    if AZURE_SEARCH_USE_SEMANTIC_SEARCH.lower() == "true"
+                    and AZURE_SEARCH_SEMANTIC_SEARCH_CONFIG
+                    else "",
+                    "roleInformation": AZURE_OPENAI_SYSTEM_MESSAGE,
+                },
             }
-        ]
+        ],
     }
 
     chatgpt_url = f"https://{AZURE_OPENAI_RESOURCE}.openai.azure.com/openai/deployments/{AZURE_OPENAI_MODEL}"
