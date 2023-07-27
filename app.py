@@ -78,7 +78,7 @@ def micro_redirect():
         #return redirect('/select-login')
     session['user']  = 'here'
     session['token'] = 'token'
-
+    print(result)
     return 1
     #return redirect("/")
    
