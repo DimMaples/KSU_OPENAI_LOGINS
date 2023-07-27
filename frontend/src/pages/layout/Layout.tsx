@@ -42,7 +42,7 @@ const Layout = () => {
                             aria-hidden="true"
                         />
                         <Link to="/" className={styles.headerTitleContainer}>
-                            <h1 className={styles.headerTitle}>KSU AI</h1>
+                            <h1 className={styles.headerTitle}>KSU Chat GPT</h1>
                         </Link>
                         <div className={styles.shareButtonContainer} role="button" tabIndex={0} aria-label="Share" onClick={handleShareClick} onKeyDown={e => e.key === "Enter" || e.key === " " ? handleShareClick() : null}>
                             <ShareRegular className={styles.shareButton} />
@@ -90,7 +90,10 @@ const Layout = () => {
                     </div>
                 </Stack>
             </Dialog>
-        </div>
+            <div className="copyRight">
+                @ Powered by Microsoft Azure
+            </div>
+        </div> 
     );
 };
 

@@ -1,23 +1,16 @@
 import json
 import os
 import logging
-import requests
+from flask import Flask, Response, request, jsonify
+from dotenv import load_dotenv
 
 from flask import Flask, Response, request, session ,jsonify, url_for, redirect, render_template
 from authlib.integrations.flask_client import OAuth
-from dotenv import load_dotenv
+from werkzeug.middleware.proxy_fix import ProxyFix
 
 import identity.web
 from flask_session import Session
 
-#from flask_login import (
-#    current_user,
-#    LoginManager,
-#    login_required,
-#    login_user,
-#    logout_user,
-#)
-#from oauthlib.oauth2 import WebApplicationClient
 load_dotenv()
 
 app = Flask(__name__)
@@ -30,14 +23,20 @@ app.config.update(
 )
 #for MS-azure-login
 Session(app)
-
 oauth = OAuth(app)
+
+auth = identity.web.Auth(
+    session=session,
+    authority=os.environ.get('authority', '1'),
+    client_id=os.environ.get('client_idd', '1'),
+    client_credential=os.environ.get('client_credential', '1')
+)
 
 @app.route('/google/')
 def google():
-    GOOGLE_CLIENT_ID = os.environ.get('GOOGLE_CLIENT_ID')
-    GOOGLE_CLIENT_SECRET = os.environ.get('GOOGLE_CLIENT_SECRET')
-    CONF_URL = os.environ.get('CONF_URL')
+    GOOGLE_CLIENT_ID = os.environ.get('GOOGLE_CLIENT_ID', '1')
+    GOOGLE_CLIENT_SECRET = os.environ.get('GOOGLE_CLIENT_SECRET', '1')
+    CONF_URL = os.environ.get('CONF_URL', '1')
     
     oauth.register(
         name='google',
@@ -57,34 +56,42 @@ def google():
 def google_auth():
     token = oauth.google.authorize_access_token()
     user = oauth.google.parse_id_token(token)
-    print(" Google User ", user)
-    return redirect('/chat_app')
-
-#trying out to start with MS to at least it's to work
-from werkzeug.middleware.proxy_fix import ProxyFix
-
-auth = identity.web.Auth(
-    session=session,
-    authority=os.environ.get('authority'),
-    client_id=os.environ.get('client_idd'),
-    client_credential=os.environ.get('client_credential')
-)
-
+    #print(" Google User ", user)
+    #put to session
+    session['user'] = user
+    session['token']  = token
+    return redirect('/') #TO DO: change this when done coding
+    
 @app.route("/login")
 def login():
     return render_template("login.html", version="1", **auth.log_in(
         ["User.ReadBasic.All"], # Have user consent to scopes during log-in
         redirect_uri="https://ksu24ai-restore-bf97.azurewebsites.net/.auth/login/aad/callback",
     ))
+
+@app.route("/.auth/login/aad/callback")
+def micro_redirect():
+    result = auth.complete_log_in(request.args)
+    if "error" in result:
+        return redirect('/select-login')
+    else :
+        session['user']  = 'here'
+        session['token'] = 'token'
+        return redirect("/")
    
 @app.route("/select-login")
 def select_login():
-    return render_template("select.html")
-
+    return render_template("select.html") 
+   
 @app.route("/", defaults={"path": "index.html"})
 @app.route("/<path:path>")
 def static_file(path):
-    return app.send_static_file(path)
+#check session. if has login token then output chat
+#if not output select page
+    if session['user'] and session['token']:
+        return app.send_static_file(path)
+    else :     
+        return redirect('/select-login')
 
 # ACS Integration Settings
 AZURE_SEARCH_SERVICE = os.environ.get("AZURE_SEARCH_SERVICE")
@@ -113,13 +120,6 @@ AZURE_OPENAI_STREAM = os.environ.get("AZURE_OPENAI_STREAM", "true")
 AZURE_OPENAI_MODEL_NAME = os.environ.get("AZURE_OPENAI_MODEL_NAME", "gpt-35-turbo") # Name of the model, e.g. 'gpt-35-turbo' or 'gpt-4'
 
 SHOULD_STREAM = True if AZURE_OPENAI_STREAM.lower() == "true" else False
-
-#Google Auth Settings
-GOOGLE_CLIENT_ID = os.environ.get("GOOGLE_CLIENT_ID", None)
-GOOGLE_CLIENT_SECRET = os.environ.get("GOOGLE_CLIENT_SECRET", None)
-GOOGLE_DISCOVERY_URL = (
-    "https://accounts.google.com/.well-known/openid-configuration"
-)
 
 def is_chat_model():
     if 'gpt-4' in AZURE_OPENAI_MODEL_NAME.lower() or AZURE_OPENAI_MODEL_NAME.lower() in ['gpt-35-turbo-4k', 'gpt-35-turbo-16k']:
