@@ -27,16 +27,16 @@ oauth = OAuth(app)
 
 auth = identity.web.Auth(
     session=session,
-    authority=os.environ.get('authority', '1'),
-    client_id=os.environ.get('client_idd', '1'),
-    client_credential=os.environ.get('client_credential', '1')
+    authority=os.environ.get('authority'),
+    client_id=os.environ.get('client_idd'),
+    client_credential=os.environ.get('client_credential')
 )
 
 @app.route('/google/')
 def google():
-    GOOGLE_CLIENT_ID = os.environ.get('GOOGLE_CLIENT_ID', '1')
-    GOOGLE_CLIENT_SECRET = os.environ.get('GOOGLE_CLIENT_SECRET', '1')
-    CONF_URL = os.environ.get('CONF_URL', '1')
+    GOOGLE_CLIENT_ID = os.environ.get('GOOGLE_CLIENT_ID')
+    GOOGLE_CLIENT_SECRET = os.environ.get('GOOGLE_CLIENT_SECRET')
+    CONF_URL = os.environ.get('CONF_URL')
     
     oauth.register(
         name='google',
@@ -78,13 +78,13 @@ def micro_redirect():
         #return redirect('/select-login')
     session['user']  = 'here'
     session['token'] = 'token'
-    print(result)
-    return 1
-    #return redirect("/")
+    
+    return redirect("/")
    
 @app.route("/select-login")
 def select_login():
-    return session 
+    print(session)
+    return render_template("select.html") 
    
 @app.route("/", defaults={"path": "index.html"})
 @app.route("/<path:path>")
