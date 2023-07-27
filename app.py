@@ -92,6 +92,7 @@ def select_login():
 def static_file(path):
 #check session. if has login token then output chat
 #if not output select page
+    print(session)
     if session.get('user'):
         return app.send_static_file(path)
     else :     
