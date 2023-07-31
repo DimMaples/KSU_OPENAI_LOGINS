@@ -89,9 +89,9 @@ def static_file(path):
 #check session. if has login token then output chat
 #if not output select page
     if session.get('user'):
-        return app.send_static_file(path)
+        #return app.send_static_file(path)
+        return redirect('/select-login', session=session)
     else :
-        session = 1
         return redirect('/select-login', session=session)
 
 # ACS Integration Settings
