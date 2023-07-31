@@ -73,14 +73,11 @@ def login():
 def micro_redirect():
     result = auth.complete_log_in(request.args)
     if "error" in result:
-        print(result['error'])
-        return 1
-        #return redirect('/select-login')
+        return redirect('/select-login', result)
     session['user']  = 'here'
     session['token'] = 'token'
     
-    return session
-    #return redirect("/")
+    return redirect("/")
    
 @app.route("/select-login")
 def select_login():
@@ -91,14 +88,11 @@ def select_login():
 def static_file(path):
 #check session. if has login token then output chat
 #if not output select page
-    print(session)
     if session.get('user'):
-        print(session)
-        #return app.send_static_file(path)
-        return render_template("select.html", session=session)
-    #else :
-    return render_template("select.html", session=session)    
-        #return redirect('/select-login')
+        return app.send_static_file(path)
+    else :
+        session = 1
+        return redirect('/select-login', session=session)
 
 # ACS Integration Settings
 AZURE_SEARCH_SERVICE = os.environ.get("AZURE_SEARCH_SERVICE")
