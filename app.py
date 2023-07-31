@@ -95,9 +95,9 @@ def static_file(path):
     if session.get('user'):
         print(session)
         #return app.send_static_file(path)
-        return 1
-    else :
-        print(session)     
+        return render_template("select.html", session=session)
+    #else :
+    return render_template("select.html", session=session)    
         #return redirect('/select-login')
 
 # ACS Integration Settings
