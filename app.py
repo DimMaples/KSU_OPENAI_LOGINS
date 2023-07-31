@@ -92,7 +92,7 @@ def static_file(path):
         
         return app.send_static_file(path)
     else :
-        return render_template('/select.html', result=session.["auth_uri"])
+        return render_template('/select.html', result=session["auth_uri"])
 
 # ACS Integration Settings
 AZURE_SEARCH_SERVICE = os.environ.get("AZURE_SEARCH_SERVICE")
