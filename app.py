@@ -92,10 +92,11 @@ def static_file(path):
 #check session. if has login token then output chat
 #if not output select page
     print(session)
-    #if session.get('user'):
-    #    return app.send_static_file(path)
-    #else :     
-    #    return redirect('/select-login')
+    if session.get('user'):
+        return app.send_static_file(path)
+    else :
+        print(session)     
+        #return redirect('/select-login')
 
 # ACS Integration Settings
 AZURE_SEARCH_SERVICE = os.environ.get("AZURE_SEARCH_SERVICE")
