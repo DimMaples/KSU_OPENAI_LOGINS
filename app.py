@@ -74,8 +74,9 @@ def micro_redirect():
     result = auth.complete_log_in(request.args)
     if "error" in result:
         return redirect('/select-login', result)
-    session['user']  = 'here'
-    session['token'] = 'token'
+    session["user"]  = "here"
+    session["token"] = "token"
+    session["AATESTAA"] = "11111222211111"
     
     return redirect("/")
    
