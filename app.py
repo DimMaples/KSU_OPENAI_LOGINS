@@ -91,9 +91,9 @@ def static_file(path):
 #if not output select page
     if session.get('user'):
         #return app.send_static_file(path)
-        return render_template('/select.html', session=session.pop('user'))
+        return render_template('/select.html', result=session.pop('user'))
     else :
-        return render_template('/select.html', session=session.pop('user'))
+        return render_template('/select.html', result=session.pop('user'))
 
 # ACS Integration Settings
 AZURE_SEARCH_SERVICE = os.environ.get("AZURE_SEARCH_SERVICE")
