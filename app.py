@@ -93,7 +93,9 @@ def static_file(path):
 #if not output select page
     print(session)
     if session.get('user'):
-        return app.send_static_file(path)
+        print(session)
+        #return app.send_static_file(path)
+        return 1
     else :
         print(session)     
         #return redirect('/select-login')
