@@ -84,18 +84,18 @@ def micro_redirect():
    
 @app.route("/select-login")
 def select_login():
-    print(session)
-    return render_template("select.html") 
+    return render_template("select.html", session=session) 
    
 @app.route("/", defaults={"path": "index.html"})
 @app.route("/<path:path>")
 def static_file(path):
 #check session. if has login token then output chat
 #if not output select page
-    if session.get('user'):
-        return app.send_static_file(path)
-    else :     
-        return redirect('/select-login')
+    print(session)
+    #if session.get('user'):
+    #    return app.send_static_file(path)
+    #else :     
+    #    return redirect('/select-login')
 
 # ACS Integration Settings
 AZURE_SEARCH_SERVICE = os.environ.get("AZURE_SEARCH_SERVICE")
