@@ -88,11 +88,11 @@ def select_login():
 def static_file(path):
 #check session. if has login token then output chat
 #if not output select page    auth_uri
-    if session.get('user'):
+    if session.get("_auth_flow"):
         return app.send_static_file(path)
         #return render_template('/select.html', result=session)
     else :
-        return render_template('/select.html', result=session.get("_auth_flow"))
+        return render_template('/select.html')
 
 # ACS Integration Settings
 AZURE_SEARCH_SERVICE = os.environ.get("AZURE_SEARCH_SERVICE")
