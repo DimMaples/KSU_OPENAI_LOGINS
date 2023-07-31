@@ -76,7 +76,6 @@ def micro_redirect():
         return redirect('/select-login', result)
     session["user"]  = "here"
     session["token"] = "token"
-    session["AATESTAA"] = "11111222211111"
    
     return redirect("/")
    
@@ -88,12 +87,9 @@ def select_login():
 @app.route("/<path:path>")
 def static_file(path):
 #check session. if has login token then output chat
-#if not output select page
-    session["user"]  = "here"
-    session["token"] = "token"
-    if session.get('user'):
-        #return app.send_static_file(path)
-        return render_template('/select.html', result=session)
+#if not output select page    auth_uri
+    if session.get('auth_uri'):
+        return app.send_static_file(path)
     else :
         return render_template('/select.html', result=session)
 
