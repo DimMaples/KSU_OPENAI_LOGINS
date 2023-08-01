@@ -82,11 +82,17 @@ def micro_redirect():
 @app.route("/select-login")
 def select_login():
     return render_template("select.html", session=session) 
-   
+
+
 @app.route("/", defaults={"path": "index.html"})
 @app.route("/<path:path>")
 def static_file(path):
     return app.send_static_file(path)
+   
+#@app.route("/", defaults={"path": "index.html"})
+#@app.route("/<path:path>")
+#def static_file(path):
+#    return app.send_static_file(path)
 #check session. if has login token then output chat
 #if not output select page auth_uri
    # if session.get("_auth_flow"):
