@@ -96,6 +96,7 @@ def static_file(path):
 #check session. if has login token then output chat
 #if not output select page auth_uri
     if session.get("_auth_flow"):
+        print(session)
         return app.send_static_file(path)
     #    return render_template('/index.html', result=session)
     else :
