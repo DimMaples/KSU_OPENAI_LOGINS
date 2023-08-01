@@ -1,6 +1,8 @@
 import json
 import os
 import logging
+import requests
+import openai
 from flask import Flask, Response, request, jsonify
 from dotenv import load_dotenv
 
@@ -76,29 +78,29 @@ def micro_redirect():
     session["user"]  = "here"
     session["token"] = "token"
    
-    return redirect("/chat")
+    return redirect("/")
    
 @app.route("/select-login")
 def select_login():
     return render_template("select.html", session=session) 
 
 
-#@app.route("/chat", defaults={"path": "index.html"})
-#@app.route("/<path:path>")
-#def static_file(path):
-#    return app.send_static_file(path)
-   
-@app.route("/chat", defaults={"path": "index.html"})
-@app.route("/chat<path:path>")
+@app.route("/", defaults={"path": "index.html"})
+@app.route("/<path:path>")
 def static_file(path):
+    return app.send_static_file(path)
+   
+#@app.route("/chat", defaults={"path": "index.html"})
+#@app.route("/chat<path:path>")
+#def static_file(path):
 #    return app.send_static_file(path)
 #check session. if has login token then output chat
 #if not output select page auth_uri
-    if session['_auth_flow']:
-        return app.send_static_file(path)
+#    if session['_auth_flow']:
+#        return app.send_static_file(path)
     #    return render_template('/index.html', result=session)
-    else :
-        return render_template('/select.html')
+#    else :
+#        return render_template('/select.html')
 
 # ACS Integration Settings
 AZURE_SEARCH_SERVICE = os.environ.get("AZURE_SEARCH_SERVICE")
