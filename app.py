@@ -90,7 +90,7 @@ def select_login():
 #    return app.send_static_file(path)
    
 @app.route("/chat", defaults={"path": "index.html"})
-@app.route("/<path:path>")
+@app.route("/chat<path:path>")
 def static_file(path):
 #    return app.send_static_file(path)
 #check session. if has login token then output chat
