@@ -49,7 +49,6 @@ def google():
     )
     # Redirect to google_auth function
     redirect_uri = url_for('google_auth', _external=True)
-    print(redirect_uri)
     return oauth.google.authorize_redirect(redirect_uri)
 
 @app.route('/google/auth/')
@@ -77,7 +76,7 @@ def micro_redirect():
     session["user"]  = "here"
     session["token"] = "token"
    
-    return redirect("/")
+    return redirect("/chat")
    
 @app.route("/select-login")
 def select_login():
@@ -89,13 +88,13 @@ def select_login():
 #def static_file(path):
 #    return app.send_static_file(path)
    
-@app.route("/", defaults={"path": "index.html"})
-@app.route("/<path:path>")
+@app.route("/chat", defaults={"path": "index.html"})
+@app.route("/chat<path:path>")
 def static_file(path):
 #    return app.send_static_file(path)
 #check session. if has login token then output chat
 #if not output select page auth_uri
-    if '_auth_flow' in session:
+    if "_auth_flow" in session:
         return app.send_static_file(path)
     #    return render_template('/index.html', result=session)
     else :
