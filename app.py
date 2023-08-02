@@ -1,20 +1,11 @@
 import json
 import os
 import logging
-<<<<<<< HEAD
-from flask import Flask, Response, request, jsonify
-=======
 import requests
 import openai
->>>>>>> 3fb5b24ebf11e70959c2e8552482c4655746f024
 from dotenv import load_dotenv
-
 from flask import Flask, Response, request, session ,jsonify, url_for, redirect, render_template
 from authlib.integrations.flask_client import OAuth
-<<<<<<< HEAD
-import requests
-=======
->>>>>>> 3fb5b24ebf11e70959c2e8552482c4655746f024
 from werkzeug.middleware.proxy_fix import ProxyFix
 
 import identity.web
@@ -36,15 +27,9 @@ oauth = OAuth(app)
 
 auth = identity.web.Auth(
     session=session,
-<<<<<<< HEAD
     authority=os.environ.get('authority', '1'),
     client_id=os.environ.get('client_idd', '1'),
     client_credential=os.environ.get('client_credential', '1')
-=======
-    authority=os.environ.get('authority'),
-    client_id=os.environ.get('client_idd'),
-    client_credential=os.environ.get('client_credential')
->>>>>>> 3fb5b24ebf11e70959c2e8552482c4655746f024
 )
 
 @app.route('/google/')
@@ -87,43 +72,27 @@ def login():
 def micro_redirect():
     result = auth.complete_log_in(request.args)
     if "error" in result:
-<<<<<<< HEAD
         return redirect('/select-login')
     session['user']  = 'here'
     session['token'] = 'token'
-=======
-        return redirect('/select-login', result)
-    session["user"]  = "here"
-    session["token"] = "token"
-   
->>>>>>> 3fb5b24ebf11e70959c2e8552482c4655746f024
+
     return redirect("/")
    
 @app.route("/select-login")
 def select_login():
-<<<<<<< HEAD
     return render_template("select.html") 
-=======
-    return render_template("select.html", session=session) 
-
 
 #@app.route("/", defaults={"path": "index.html"})
 #@app.route("/<path:path>")
 #def static_file(path):
 #    return app.send_static_file(path)
->>>>>>> 3fb5b24ebf11e70959c2e8552482c4655746f024
+
    
 @app.route("/", defaults={"path": "index.html"})
 @app.route("/<path:path>")
 def static_file(path):
-<<<<<<< HEAD
 #check session. if has login token then output chat
 #if not output select page
-    if 'user' in session and 'token' in session:
-        return app.send_static_file(path)
-    else :     
-        return redirect('/select-login')
-=======
     return app.send_static_file(path)
 #check session. if has login token then output chat
 #if not output select page auth_uri
@@ -132,7 +101,6 @@ def static_file(path):
     #    return render_template('/index.html', result=session)
 #    else :
 #        return render_template('/select.html')
->>>>>>> 3fb5b24ebf11e70959c2e8552482c4655746f024
 
 # ACS Integration Settings
 AZURE_SEARCH_SERVICE = os.environ.get("AZURE_SEARCH_SERVICE")
