@@ -2,9 +2,18 @@ azure-identity==1.13.0b4
 requests==2.31.0
 Flask==2.3.2
 oauthlib==3.0.1
+<<<<<<< HEAD
 openai==0.27.7
 pyOpenSSL==23.2.0
 Flask-Login==0.6.2
+=======
+authlib==1.2.1
+openai==0.27.7
+pyOpenSSL==23.2.0
+identity==0.2.0
+Flask-Login==0.6.2
+Flask-Session==0.5.0
+>>>>>>> 3fb5b24ebf11e70959c2e8552482c4655746f024
 azure-search-documents==11.4.0b3
 azure-storage-blob==12.14.1
 python-dotenv==1.0.0

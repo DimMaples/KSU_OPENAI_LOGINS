@@ -4,12 +4,17 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Azure AI</title>
+    <title>Azure AI Login</title>
   </head>
   <body>
-    h1>Microsoft Identity Python Web App</h1>
-
+    <h1>KSU Open AI</h1>
+    <br>
+    <div style="align:center">
+      <img src="https://www.kspu.edu/Images/MAIN%20LOGO%20blue.png" 
+          style="width:100px;"/>
+    </div>
     {% if user_code %}
+    <br>
     <ol>
       <li>To sign in, type <b>{{ user_code }}</b> into
         <a href='{{ auth_uri }}' target=_blank>{{ auth_uri }}</a>
@@ -18,10 +23,14 @@
       <li>And then <a href="{{ url_for('auth_response') }}">proceed</a>.</li>
     </ol>
     {% else %}
-    <ul><li><a href='{{ auth_uri }}'>Sign In</a></li></ul>
+      <ul>
+        <li>
+          <a href='{{ auth_uri }}'>
+            Sign In
+          </a>
+        </li>
+      </ul>
     {% endif %}
-
-
     <hr>
  </body>
  </html>    

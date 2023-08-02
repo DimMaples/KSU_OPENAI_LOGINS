@@ -1,12 +1,20 @@
 import json
 import os
 import logging
+<<<<<<< HEAD
 from flask import Flask, Response, request, jsonify
+=======
+import requests
+import openai
+>>>>>>> 3fb5b24ebf11e70959c2e8552482c4655746f024
 from dotenv import load_dotenv
 
 from flask import Flask, Response, request, session ,jsonify, url_for, redirect, render_template
 from authlib.integrations.flask_client import OAuth
+<<<<<<< HEAD
 import requests
+=======
+>>>>>>> 3fb5b24ebf11e70959c2e8552482c4655746f024
 from werkzeug.middleware.proxy_fix import ProxyFix
 
 import identity.web
@@ -28,9 +36,15 @@ oauth = OAuth(app)
 
 auth = identity.web.Auth(
     session=session,
+<<<<<<< HEAD
     authority=os.environ.get('authority', '1'),
     client_id=os.environ.get('client_idd', '1'),
     client_credential=os.environ.get('client_credential', '1')
+=======
+    authority=os.environ.get('authority'),
+    client_id=os.environ.get('client_idd'),
+    client_credential=os.environ.get('client_credential')
+>>>>>>> 3fb5b24ebf11e70959c2e8552482c4655746f024
 )
 
 @app.route('/google/')
@@ -50,7 +64,6 @@ def google():
     )
     # Redirect to google_auth function
     redirect_uri = url_for('google_auth', _external=True)
-    print(redirect_uri)
     return oauth.google.authorize_redirect(redirect_uri)
 
 @app.route('/google/auth/')
@@ -74,24 +87,52 @@ def login():
 def micro_redirect():
     result = auth.complete_log_in(request.args)
     if "error" in result:
+<<<<<<< HEAD
         return redirect('/select-login')
     session['user']  = 'here'
     session['token'] = 'token'
+=======
+        return redirect('/select-login', result)
+    session["user"]  = "here"
+    session["token"] = "token"
+   
+>>>>>>> 3fb5b24ebf11e70959c2e8552482c4655746f024
     return redirect("/")
    
 @app.route("/select-login")
 def select_login():
+<<<<<<< HEAD
     return render_template("select.html") 
+=======
+    return render_template("select.html", session=session) 
+
+
+#@app.route("/", defaults={"path": "index.html"})
+#@app.route("/<path:path>")
+#def static_file(path):
+#    return app.send_static_file(path)
+>>>>>>> 3fb5b24ebf11e70959c2e8552482c4655746f024
    
 @app.route("/", defaults={"path": "index.html"})
 @app.route("/<path:path>")
 def static_file(path):
+<<<<<<< HEAD
 #check session. if has login token then output chat
 #if not output select page
     if 'user' in session and 'token' in session:
         return app.send_static_file(path)
     else :     
         return redirect('/select-login')
+=======
+    return app.send_static_file(path)
+#check session. if has login token then output chat
+#if not output select page auth_uri
+#    if session['_auth_flow']:
+#        return app.send_static_file(path)
+    #    return render_template('/index.html', result=session)
+#    else :
+#        return render_template('/select.html')
+>>>>>>> 3fb5b24ebf11e70959c2e8552482c4655746f024
 
 # ACS Integration Settings
 AZURE_SEARCH_SERVICE = os.environ.get("AZURE_SEARCH_SERVICE")
@@ -140,7 +181,9 @@ def prepare_body_headers_with_data(request):
         "temperature": float(AZURE_OPENAI_TEMPERATURE),
         "max_tokens": int(AZURE_OPENAI_MAX_TOKENS),
         "top_p": float(AZURE_OPENAI_TOP_P),
-        "stop": AZURE_OPENAI_STOP_SEQUENCE.split("|") if AZURE_OPENAI_STOP_SEQUENCE else None,
+        "stop": AZURE_OPENAI_STOP_SEQUENCE.split("|")
+        if AZURE_OPENAI_STOP_SEQUENCE
+        else None,
         "stream": SHOULD_STREAM,
         "dataSources": [
             {
@@ -150,19 +193,32 @@ def prepare_body_headers_with_data(request):
                     "key": AZURE_SEARCH_KEY,
                     "indexName": AZURE_SEARCH_INDEX,
                     "fieldsMapping": {
-                        "contentField": AZURE_SEARCH_CONTENT_COLUMNS.split("|") if AZURE_SEARCH_CONTENT_COLUMNS else [],
-                        "titleField": AZURE_SEARCH_TITLE_COLUMN if AZURE_SEARCH_TITLE_COLUMN else None,
-                        "urlField": AZURE_SEARCH_URL_COLUMN if AZURE_SEARCH_URL_COLUMN else None,
-                        "filepathField": AZURE_SEARCH_FILENAME_COLUMN if AZURE_SEARCH_FILENAME_COLUMN else None
+                        "contentField": AZURE_SEARCH_CONTENT_COLUMNS.split("|")
+                        if AZURE_SEARCH_CONTENT_COLUMNS
+                        else [],
+                        "titleField": AZURE_SEARCH_TITLE_COLUMN
+                        if AZURE_SEARCH_TITLE_COLUMN
+                        else None,
+                        "urlField": AZURE_SEARCH_URL_COLUMN
+                        if AZURE_SEARCH_URL_COLUMN
+                        else None,
+                        "filepathField": AZURE_SEARCH_FILENAME_COLUMN
+                        if AZURE_SEARCH_FILENAME_COLUMN
+                        else None,
                     },
-                    "inScope": True if AZURE_SEARCH_ENABLE_IN_DOMAIN.lower() == "true" else False,
+                    "inScope": AZURE_SEARCH_ENABLE_IN_DOMAIN.lower() == "true",
                     "topNDocuments": AZURE_SEARCH_TOP_K,
-                    "queryType": "semantic" if AZURE_SEARCH_USE_SEMANTIC_SEARCH.lower() == "true" else "simple",
-                    "semanticConfiguration": AZURE_SEARCH_SEMANTIC_SEARCH_CONFIG if AZURE_SEARCH_USE_SEMANTIC_SEARCH.lower() == "true" and AZURE_SEARCH_SEMANTIC_SEARCH_CONFIG else "",
-                    "roleInformation": AZURE_OPENAI_SYSTEM_MESSAGE
-                }
+                    "queryType": "semantic"
+                    if AZURE_SEARCH_USE_SEMANTIC_SEARCH.lower() == "true"
+                    else "simple",
+                    "semanticConfiguration": AZURE_SEARCH_SEMANTIC_SEARCH_CONFIG
+                    if AZURE_SEARCH_USE_SEMANTIC_SEARCH.lower() == "true"
+                    and AZURE_SEARCH_SEMANTIC_SEARCH_CONFIG
+                    else "",
+                    "roleInformation": AZURE_OPENAI_SYSTEM_MESSAGE,
+                },
             }
-        ]
+        ],
     }
 
     chatgpt_url = f"https://{AZURE_OPENAI_RESOURCE}.openai.azure.com/openai/deployments/{AZURE_OPENAI_MODEL}"
