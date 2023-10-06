@@ -6,7 +6,7 @@ import openai
 from dotenv import load_dotenv
 from flask import Flask, Response, request, session ,jsonify, url_for, redirect, render_template
 from authlib.integrations.flask_client import OAuth
-from werkzeug.middleware.proxy_fix import ProxyFix
+#from werkzeug.middleware.proxy_fix import ProxyFix
 
 import identity.web
 from flask_session import Session
@@ -15,11 +15,12 @@ load_dotenv()
 
 app = Flask(__name__)
 app.config['SESSION_TYPE'] = 'filesystem'
+app.config["SESSION_PERMANENT"] = False
 
 #adding login page
 
 app.config.update(
-    SECRET_KEY=os.urandom(24)
+    SECRET_KEY=os.urandom(26)
 )
 #for MS-azure-login
 Session(app)
@@ -73,8 +74,8 @@ def micro_redirect():
     result = auth.complete_log_in(request.args)
     if "error" in result:
         return redirect('/select-login')
-    session['user']  = 'here'
-    session['token'] = 'token'
+    session["user"]  = 'here'
+    session["token"] = 'token'
 
     return redirect("/")
    
@@ -82,18 +83,26 @@ def micro_redirect():
 def select_login():
     return render_template("select.html") 
 
-#@app.route("/", defaults={"path": "index.html"})
-#@app.route("/<path:path>")
-#def static_file(path):
-#    return app.send_static_file(path)
-
-   
 @app.route("/", defaults={"path": "index.html"})
 @app.route("/<path:path>")
 def static_file(path):
+    #session["user"]  = 'here' 
+    if "user" in session:
+        #session["user"] = "GOTH"
+        #session["token"] = "RRRR"
+        #s_type = type(session)
+        return app.send_static_file(path)
+        #return render_template('/select.html', result=session)
+    return render_template('/select.html')
+#@app.route("/")
+#def index():
+#    return render_template("index.html")
+#@app.route("/<path:path>")
+#def static_file(path):
+#    return app.send_static_file(path)
 #check session. if has login token then output chat
 #if not output select page
-    return app.send_static_file(path)
+    #return app.send_static_file(path)
 #check session. if has login token then output chat
 #if not output select page auth_uri
 #    if session['_auth_flow']:
