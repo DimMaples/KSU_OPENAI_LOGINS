@@ -93,7 +93,8 @@ def static_file(path):
         #s_type = type(session)
         return app.send_static_file(path)
         #return render_template('/select.html', result=session)
-    return render_template('/select.html', result=session)
+    result = type(session)
+    return render_template('/select.html', result=result)
 #@app.route("/")
 #def index():
 #    return render_template("index.html")
