@@ -93,6 +93,8 @@ def static_file(path):
         #s_type = type(session)
         return app.send_static_file(path)
         #return render_template('/select.html', result=session)
+    if "_auth_flow" in session:
+        return app.send_static_file(path)
     return render_template('/select.html', result=session)
 #@app.route("/")
 #def index():
