@@ -86,15 +86,20 @@ def select_login():
 @app.route("/", defaults={"path": "index.html"})
 @app.route("/<path:path>")
 def static_file(path):
-    #session["user"]  = 'here' 
-    if "user" in session:
+    #session["user"]  = 'here'
+    if not session.get("_auth_flow"):
+         result = session
+         return render_template('/select.html', result=result)
+    else:
+        return app.send_static_file(path)
+    #if "user" in session:
         #session["user"] = "GOTH"
         #session["token"] = "RRRR"
         #s_type = type(session)
-        return app.send_static_file(path)
+    #    return app.send_static_file(path)
         #return render_template('/select.html', result=session)
-    result = session
-    return render_template('/select.html', result=result)
+    #result = session
+    #return render_template('/select.html', result=result)
 #@app.route("/")
 #def index():
 #    return render_template("index.html")
