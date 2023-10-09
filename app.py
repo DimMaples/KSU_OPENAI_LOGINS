@@ -88,10 +88,11 @@ def select_login():
 def static_file(path):
     #session["user"]  = 'here'
     if not session.get("_auth_flow"):
-         result = session
-         return render_template('/select.html', result=result)
+        result = session
+        return render_template('/select.html', result=result)
     else:
-        return app.send_static_file(path)
+        print(session)
+        #return app.send_static_file(path)
     #if "user" in session:
         #session["user"] = "GOTH"
         #session["token"] = "RRRR"
