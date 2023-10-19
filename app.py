@@ -58,8 +58,7 @@ def google_auth():
     user = oauth.google.parse_id_token(token)
     #print(" Google User ", user)
     #put to session
-    session['user'] = user
-    session['token']  = token
+    session['_auth_flow'] = user
     return redirect('/') #TO DO: change this when done coding
     
 @app.route("/login")
@@ -74,9 +73,6 @@ def micro_redirect():
     result = auth.complete_log_in(request.args)
     if "error" in result:
         return redirect('/select-login')
-    session["user"]  = 'here'
-    session["token"] = 'token'
-
     return redirect("/")
    
 @app.route("/select-login")
