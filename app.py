@@ -87,12 +87,14 @@ def select_login():
 @app.route("/", defaults={"path": "index.html"})
 @app.route("/<path:path>")
 def static_file(path):
+    return app.send_static_file(path)
     #session["user"]  = 'here'
     #if not session.get("_auth_flow"):
-        result = session
-        if (session.get("_auth_flow")):
-            return app.send_static_file(path)
-        return render_template('/select.html', result=result)
+    #code below for retrieving works fine, need to just redirect
+    #    result = session
+    #    if (session.get("_auth_flow")):
+    #        return app.send_static_file(path)
+    #   return render_template('/select.html', result=result)
     #else:
     #    return app.send_static_file(path)
         #return render_template("index.html", result=[])
