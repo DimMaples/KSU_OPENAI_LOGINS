@@ -91,7 +91,7 @@ def static_file(path):
     #if not session.get("_auth_flow"):
         result = session
         if (session.get("_auth_flow")):
-            result["AAAAAA"] = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa"
+            return app.send_static_file(path)
         return render_template('/select.html', result=result)
     #else:
     #    return app.send_static_file(path)
