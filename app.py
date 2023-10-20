@@ -90,6 +90,7 @@ def static_file(path):
     result = session
     if session.get("_auth_flow") is None:
         #return app.send_static_file(path)
+        result['path'] = path
         return render_template('select.html', result=result)
     else:
         return app.send_static_file("index.html")
