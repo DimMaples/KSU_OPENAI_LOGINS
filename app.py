@@ -93,7 +93,7 @@ def static_file(path):
         result['path'] = path
         return render_template('select.html', result=result)
     else:
-        return app.send_static_file("index.html")
+        return app.send_static_file(path)
         #return render_template('/select.html', result=session)
         #return render_template("index.html", result=[])
     #if "user" in session:
