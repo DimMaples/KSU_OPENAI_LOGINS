@@ -83,43 +83,12 @@ def select_login():
 @app.route("/", defaults={"path": "index.html"})
 @app.route("/<path:path>")
 def static_file(path):
-    #return app.send_static_file(path)
-    #session["_auth_flow"]  = '_auth_flow'
-    #if not session.get("_auth_flow"):
-    #code below for retrieving works fine, need to just redirect
     result = session
     if session.get("_auth_flow") is None:
-        #return app.send_static_file(path)
-        result['path'] = path
         return render_template('select.html', result=result)
     else:
-        return app.send_static_file(path)
-        #return render_template('/select.html', result=session)
-        #return render_template("index.html", result=[])
-    #if "user" in session:
-        #session["user"] = "GOTH"
-        #session["token"] = "RRRR"
-        #s_type = type(session)
-    #    return app.send_static_file(path)
-        #return render_template('/select.html', result=session)
-    #result = session
-    #return render_template('/select.html', result=result)
-#@app.route("/")
-#def index():
-#    return render_template("index.html")
-#@app.route("/<path:path>")
-#def static_file(path):
-#    return app.send_static_file(path)
-#check session. if has login token then output chat
-#if not output select page
-    #return app.send_static_file(path)
-#check session. if has login token then output chat
-#if not output select page auth_uri
-#    if session['_auth_flow']:
-#        return app.send_static_file(path)
-    #    return render_template('/index.html', result=session)
-#    else :
-#        return render_template('/select.html')
+        return render_template('select.html', result=result)
+        #return app.send_static_file(path)
 
 # ACS Integration Settings
 AZURE_SEARCH_SERVICE = os.environ.get("AZURE_SEARCH_SERVICE")
