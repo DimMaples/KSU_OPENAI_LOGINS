@@ -89,7 +89,7 @@ def static_file(path):
     else:
         #return render_template('select.html', result=result)
         #return app.send_static_file(path)
-        return render_template('index.html', result=result)
+        return render_template('static/index.html', result=result)
 
 # ACS Integration Settings
 AZURE_SEARCH_SERVICE = os.environ.get("AZURE_SEARCH_SERVICE")
