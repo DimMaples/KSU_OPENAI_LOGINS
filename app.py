@@ -80,14 +80,14 @@ def micro_login_done():
     #if "error" in result:
     #    return redirect('/select-login')
     session["_auth_flow"] = "aaaaaaaa"
-    return redirect("/")
+    return redirect("/chat")
    
 @app.route("/select-login")
 def select_login():
     result = session
     return render_template("select.html", result=result) 
 
-@app.route("/", defaults={"path": "index.html"})
+@app.route("/chat", defaults={"path": "index.html"})
 @app.route("/<path:path>")
 def static_file(path):
     result = session
