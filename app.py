@@ -69,7 +69,7 @@ def google_auth():
     #print(" Google User ", user)
     #put to session
     session['_auth_flow'] = token
-    return redirect(url_for("static_file")) #TO DO: change this when done coding
+    return redirect(url_for("/")) #TO DO: change this when done coding
     
 @app.route("/login")
 def login():
