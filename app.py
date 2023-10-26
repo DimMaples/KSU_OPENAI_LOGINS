@@ -37,7 +37,7 @@ auth = identity.web.Auth(
 def static_file(path):
     result = session
     #session["_auth_flow"] = "aaaaaaaa"
-    if not session.get("_auth_flow"):
+    if '_auth_flow' not in session:
         return render_template('select.html', result = result)
     
     return app.send_static_file(path)
@@ -91,8 +91,8 @@ def micro_login_done():
     #result = auth.complete_log_in(request.args)
     #if "error" in result:
     #    return redirect('/select-login')
-    session["_auth_flow"] = "aaaaaaaa"
-    if session.get("_auth_flow") is None:
+    #session["_auth_flow"] = "aaaaaaaa"
+    if '_auth_flow' not in session:
         return render_template('select.html', result = session)
     
     return redirect("/")
