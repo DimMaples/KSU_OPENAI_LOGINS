@@ -35,14 +35,14 @@ auth = identity.web.Auth(
 @app.route("/", defaults={"path": "index.html"})
 @app.route("/<path:path>")
 def static_file(path):
-    return render_template('select.html', result = path)
-    #result = session
+    #return render_template('select.html', result = path)
+    result = session
     #session["_auth_flow"] = "aaaaaaaa"
-    #if session.get("_auth_flow") is None:
-    #    return render_template('select.html', result=result)
-    #else:
+    if session.get("_auth_flow") is None:
+        return render_template('select.html', result = result)
+    else:
         #return render_template('index.html', result=result)
-    #return app.send_static_file(path)
+        return app.send_static_file(path)
         #return render_template('/static/index.html', result=result)
 
 @app.route('/google/')
