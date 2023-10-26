@@ -100,7 +100,7 @@ def micro_login_done():
 @app.route("/select-login")
 def select_login():
     result = session
-    if '_auth_flow' not in session:
+    if '_auth_flow' in session:
         result = 'FUNB'
     return render_template("select.html", result = result) 
 
