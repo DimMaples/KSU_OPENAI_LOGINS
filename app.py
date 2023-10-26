@@ -100,8 +100,10 @@ def micro_login_done():
 @app.route("/select-login")
 def select_login():
     result = session
-    if '_auth_flow' in session:
+    if '_auth_flow' not in session:
         result = 'FUNB'
+    else:
+        result = session
     return render_template("select.html", result = result) 
 
 # ACS Integration Settings
