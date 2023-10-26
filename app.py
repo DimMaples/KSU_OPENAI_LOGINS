@@ -83,7 +83,7 @@ def select_login():
 @app.route("/<path:path>")
 def static_file(path):
     result = session
-    #session["_auth_flow"] = "aaaaaaaa"
+    session["_auth_flow"] = "aaaaaaaa"
     if session.get("_auth_flow") is None:
         return render_template('select.html', result=result)
     else:
