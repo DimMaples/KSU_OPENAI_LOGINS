@@ -39,9 +39,8 @@ def static_file(path):
     #session["_auth_flow"] = "aaaaaaaa"
     if not session.get("_auth_flow"):
         return render_template('select.html', result = result)
-    else:
-        #return render_template('index.html', result = result)
-        return app.send_static_file(path)
+    
+    return app.send_static_file(path)
         #return render_template('/static/index.html', result = result)
 
 @app.route('/google/')
