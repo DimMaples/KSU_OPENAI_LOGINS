@@ -6,8 +6,7 @@ import openai
 from dotenv import load_dotenv
 from flask import Flask, Response, request, session ,jsonify, url_for, redirect, render_template
 from authlib.integrations.flask_client import OAuth
-#from werkzeug.middleware.proxy_fix import ProxyFix
-
+from werkzeug.middleware.proxy_fix import ProxyFix
 import identity.web
 from flask_session import Session
 
@@ -58,7 +57,7 @@ def google_auth():
     user = oauth.google.parse_id_token(token)
     #print(" Google User ", user)
     #put to session
-    session['_auth_flow'] = user
+    session['_auth_flow'] = token
     return redirect('/') #TO DO: change this when done coding
     
 @app.route("/login")
@@ -84,6 +83,7 @@ def select_login():
 @app.route("/<path:path>")
 def static_file(path):
     result = session
+    #session["_auth_flow"] = "aaaaaaaa"
     if session.get("_auth_flow") is None:
         return render_template('select.html', result=result)
     else:
