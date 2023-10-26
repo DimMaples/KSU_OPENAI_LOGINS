@@ -32,6 +32,18 @@ auth = identity.web.Auth(
     client_credential=os.environ.get('client_credential', '1')
 )
 
+@app.route("/", defaults={"path": "index.html"})
+@app.route("/<path:path>")
+def static_file(path):
+    #result = session
+    #session["_auth_flow"] = "aaaaaaaa"
+    #if session.get("_auth_flow") is None:
+    #    return render_template('select.html', result=result)
+    #else:
+        #return render_template('index.html', result=result)
+    return app.send_static_file(path)
+        #return render_template('/static/index.html', result=result)
+
 @app.route('/google/')
 def google():
     GOOGLE_CLIENT_ID = os.environ.get('GOOGLE_CLIENT_ID', '1')
@@ -84,24 +96,12 @@ def micro_login_done():
     if session.get("_auth_flow") is None:
         return render_template('select.html', result=session)
     else:
-        return redirect("/chat")
+        return redirect("/")
    
 @app.route("/select-login")
 def select_login():
     result = session
     return render_template("select.html", result=result) 
-
-@app.route("/chat", defaults={"path": "index.html"})
-@app.route("/<path:path>")
-def static_file(path):
-    #result = session
-    #session["_auth_flow"] = "aaaaaaaa"
-    #if session.get("_auth_flow") is None:
-    #    return render_template('select.html', result=result)
-    #else:
-        #return render_template('index.html', result=result)
-    return app.send_static_file(path)
-        #return render_template('/static/index.html', result=result)
 
 # ACS Integration Settings
 AZURE_SEARCH_SERVICE = os.environ.get("AZURE_SEARCH_SERVICE")
