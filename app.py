@@ -70,6 +70,7 @@ def login():
 @app.route("/.auth/login/aad/callback")
 def micro_redirect():
     result = auth.complete_log_in(request.args)
+    session["_auth_flow"] = result
     if "error" in result:
         return redirect('/select-login')
     return redirect("/")
@@ -80,7 +81,10 @@ def micro_login_done():
     #if "error" in result:
     #    return redirect('/select-login')
     session["_auth_flow"] = "aaaaaaaa"
-    return redirect("/chat")
+    if session.get("_auth_flow") is None:
+        return render_template('select.html', result=session)
+    else:
+        return redirect("/chat")
    
 @app.route("/select-login")
 def select_login():
@@ -90,13 +94,13 @@ def select_login():
 @app.route("/chat", defaults={"path": "index.html"})
 @app.route("/<path:path>")
 def static_file(path):
-    result = session
+    #result = session
     #session["_auth_flow"] = "aaaaaaaa"
-    if session.get("_auth_flow") is None:
-        return render_template('select.html', result=result)
-    else:
+    #if session.get("_auth_flow") is None:
+    #    return render_template('select.html', result=result)
+    #else:
         #return render_template('index.html', result=result)
-        return app.send_static_file(path)
+    return app.send_static_file(path)
         #return render_template('/static/index.html', result=result)
 
 # ACS Integration Settings
