@@ -69,7 +69,7 @@ def google_auth():
     #print(" Google User ", user)
     #put to session
     session['_auth_flow'] = token
-    return redirect('/') #TO DO: change this when done coding
+    return redirect(url_for("static_file")) #TO DO: change this when done coding
     
 @app.route("/login")
 def login():
@@ -84,7 +84,7 @@ def micro_redirect():
     session["_auth_flow"] = result
     if "error" in result:
         return redirect('/select-login')
-    return redirect("/")
+    return redirect(url_for("static_file"))
 
 @app.route("/.auth/login/done/")
 def micro_login_done():
