@@ -4,11 +4,12 @@ import logging
 import requests
 import openai
 from dotenv import load_dotenv
-from flask import Flask, Response, request, session ,jsonify, url_for, redirect, render_template
+from flask import Flask, Response, request, session , current_app ,jsonify, url_for, redirect, render_template
 from authlib.integrations.flask_client import OAuth
 from werkzeug.middleware.proxy_fix import ProxyFix
 import identity.web
 from flask_session import Session
+from flask import Flask, current_app
 
 load_dotenv()
 
@@ -40,7 +41,7 @@ def static_file(path):
     if '_auth_flow' not in session:
         return render_template('select.html', result = result)
     
-    return app.send_static_file(path)
+    return current_app.send_static_file("index.html")
         #return render_template('/static/index.html', result = result)
 
 @app.route('/google/')
@@ -94,16 +95,12 @@ def micro_login_done():
     #session["_auth_flow"] = "aaaaaaaa"
     if '_auth_flow' not in session:
         return render_template('select.html', result = session)
-    
-    return redirect(url_for("static_file"))
+    return current_app.send_static_file("index.html")
+    #return redirect(url_for("static_file"))
    
 @app.route("/select-login")
 def select_login():
     result = session
-    if '_auth_flow' not in session:
-        result = 'FUNB'
-    else:
-        result = session
     return render_template("select.html", result = result) 
 
 # ACS Integration Settings
