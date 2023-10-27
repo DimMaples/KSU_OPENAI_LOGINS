@@ -36,7 +36,9 @@ auth = identity.web.Auth(
 @app.route("/", defaults={"path": "index.html"})
 @app.route("/<path:path>")
 def static_file(path):
+    test = session
     return app.send_static_file(path)
+    #return app.send_static_file(path)
     #result = session
     #session["_auth_flow"] = "aaaaaaaa"
     #if '_auth_flow' not in session:
