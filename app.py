@@ -40,8 +40,9 @@ def static_file(path):
     #session["_auth_flow"] = "aaaaaaaa"
     if '_auth_flow' not in session:
         return render_template('select.html', result = result)
-    
-    return current_app.send_static_file("index.html")
+    result ['AAAAAAAAAAAAAAAAAAAAAA'] = "AAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    return render_template('select.html', result = result)
+    #return current_app.send_static_file("index.html")
         #return render_template('/static/index.html', result = result)
 
 @app.route('/google/')
