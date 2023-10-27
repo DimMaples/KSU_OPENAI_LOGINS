@@ -95,8 +95,9 @@ def micro_login_done():
     #session["_auth_flow"] = "aaaaaaaa"
     if '_auth_flow' not in session:
         return render_template('select.html', result = session)
-    return current_app.send_static_file("index.html")
+    #return current_app.send_static_file("index.html")
     #return redirect(url_for("static_file"))
+    return render_template('index.html')
    
 @app.route("/select-login")
 def select_login():
