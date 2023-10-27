@@ -4,12 +4,11 @@ import logging
 import requests
 import openai
 from dotenv import load_dotenv
-from flask import Flask, Response, request, session , current_app ,jsonify, url_for, redirect, render_template
+from flask import Flask, Response, request, session , jsonify, url_for, redirect, render_template
 from authlib.integrations.flask_client import OAuth
 from werkzeug.middleware.proxy_fix import ProxyFix
 import identity.web
 from flask_session import Session
-from flask import Flask, current_app
 
 load_dotenv()
 
@@ -36,17 +35,16 @@ auth = identity.web.Auth(
 @app.route("/", defaults={"path": "index.html"})
 @app.route("/<path:path>")
 def static_file(path):
-    test = session
-    return app.send_static_file(path)
     #return app.send_static_file(path)
-    #result = session
-    #session["_auth_flow"] = "aaaaaaaa"
-    #if '_auth_flow' not in session:
-    #    return render_template('select.html', result = result)
+    #return app.send_static_file(path)
+    result = session
+    session["_auth_flow"] = "aaaaaaaa"
+    if '_auth_flow' not in session:
+        return render_template('select.html', result = result)
     #result ['AAAAAAAAAAAAAAAAAAAAAA'] = "AAAAAAAAAAAAAAAAAAAAAAAAAAAA"
     #return render_template('select.html', result = result)
     #return render_template('templates/index.html')
-    #return app.send_static_file(path)
+    return app.send_static_file(path)
         #return render_template('/static/index.html', result = result)
      
 
