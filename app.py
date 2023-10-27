@@ -40,7 +40,7 @@ def static_file(path):
     #session["_auth_flow"] = "aaaaaaaa"
     if '_auth_flow' not in session:
         return render_template('select.html', result = result)
-    result ['AAAAAAAAAAAAAAAAAAAAAA'] = "AAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    #result ['AAAAAAAAAAAAAAAAAAAAAA'] = "AAAAAAAAAAAAAAAAAAAAAAAAAAAA"
     #return render_template('select.html', result = result)
     #return render_template('templates/index.html')
     return app.send_static_file(path)
@@ -101,7 +101,7 @@ def micro_login_done():
     #return current_app.send_static_file("index.html")
     #return redirect(url_for("static_file"))
     #rererewrew
-    return render_template('select.html')
+    return render_template('select.html', result = session)
    
 @app.route("/select-login")
 def select_login():
