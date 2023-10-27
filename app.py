@@ -42,8 +42,8 @@ def static_file(path):
         return render_template('select.html', result = result)
     result ['AAAAAAAAAAAAAAAAAAAAAA'] = "AAAAAAAAAAAAAAAAAAAAAAAAAAAA"
     #return render_template('select.html', result = result)
-    return render_template('index.html')
-    #return current_app.send_static_file("index.html")
+    #return render_template('templates/index.html')
+    return app.send_static_file("templates/index.html")
         #return render_template('/static/index.html', result = result)
 
 @app.route('/google/')
