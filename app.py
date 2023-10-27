@@ -41,7 +41,8 @@ def static_file(path):
     if '_auth_flow' not in session:
         return render_template('select.html', result = result)
     result ['AAAAAAAAAAAAAAAAAAAAAA'] = "AAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-    return render_template('select.html', result = result)
+    #return render_template('select.html', result = result)
+    return render_template('index.html')
     #return current_app.send_static_file("index.html")
         #return render_template('/static/index.html', result = result)
 
