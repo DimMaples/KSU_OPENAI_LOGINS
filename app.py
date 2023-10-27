@@ -97,6 +97,7 @@ def micro_login_done():
         return render_template('select.html', result = session)
     #return current_app.send_static_file("index.html")
     #return redirect(url_for("static_file"))
+    #rererewrew
     return render_template('index.html')
    
 @app.route("/select-login")
