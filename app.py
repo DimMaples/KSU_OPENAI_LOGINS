@@ -43,7 +43,7 @@ def static_file(path):
     #return render_template('select.html', result = result)
     #return render_template('templates/index.html')
     responce = app.send_static_file(path)
-    responce.headers['X-ZUMO-AUTH'] = session['_auth_flow']
+    responce.headers['x-zumo-auth'] = session['_auth_flow']
     return render_template('select.html', result = responce.headers)
     #return responce
         #return render_template('/static/index.html', result = result)
