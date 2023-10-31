@@ -38,7 +38,7 @@ def static_file(path):
     #return app.send_static_file(path)
     #return app.send_static_file(path)
     result = session
-    session["_auth_flow"] = "aaaaaaaa"
+    #session["_auth_flow"] = "aaaaaaaa"
     if '_auth_flow' not in session:
         return render_template('select.html', result = result)
     #result ['AAAAAAAAAAAAAAAAAAAAAA'] = "AAAAAAAAAAAAAAAAAAAAAAAAAAAA"
