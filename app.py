@@ -92,7 +92,7 @@ def micro_redirect():
         return redirect('/select-login')
     return redirect(url_for("static_file"))
 
-@app.route("/.auth/login/done")
+@app.route("/.auth/login/done/")
 def micro_login_done():
     #result = auth.complete_log_in(request.args)
     #if "error" in result:
