@@ -37,8 +37,8 @@ auth = identity.web.Auth(
 def static_file(path):
     result = session
     #session["_auth_flow"] = "aaaaaaaa"
-    if '_auth_flow' not in session:
-        return render_template('select.html', result = result)
+    #if '_auth_flow' not in session:
+    #    return render_template('select.html', result = result)
     #result ['AAAAAAAAAAAAAAAAAAAAAA'] = "AAAAAAAAAAAAAAAAAAAAAAAAAAAA"
     #return render_template('select.html', result = result)
     #return render_template('templates/index.html')
