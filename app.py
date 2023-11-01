@@ -87,7 +87,7 @@ def login():
 @app.route("/.auth/login/aad/callback")
 def micro_redirect():
     result = auth.complete_log_in(request.args)
-    session["_auth_flow"] = result
+    #session["_auth_flow"] = result
     if "error" in result:
         return redirect('/select-login')
     return redirect(url_for("static_file"))
@@ -95,7 +95,7 @@ def micro_redirect():
 @app.route("/.auth/login/done")
 def micro_login_done():
     result = auth.complete_log_in(request.args)
-    result['AAAAA'] = 'AAAAAAAAAAAa'
+    #result['AAAAA'] = 'AAAAAAAAAAAa'
     #if "error" in result:
     #    return redirect('/select-login')
     #session["_auth_flow"] = "aaaaaaaa"
