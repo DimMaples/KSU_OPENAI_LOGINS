@@ -81,7 +81,7 @@ def google_auth():
 def login():
     return render_template("login.html", version="1", **auth.log_in(
         ["User.ReadBasic.All"], # Have user consent to scopes during log-in
-        redirect_uri="https://ksu24ai-restore-bf97.azurewebsites.net/.auth/login/aad/callback/",
+        redirect_uri="https://ksu24ai-restore-bf97.azurewebsites.net/.auth/login/aad/callback",
     ))
 
 @app.route("/.auth/login/aad/callback")
@@ -92,7 +92,7 @@ def micro_redirect():
         return redirect('/select-login')
     return redirect(url_for("static_file"))
 
-@app.route("/.auth/login/done/")
+@app.route("/.auth/login/done")
 def micro_login_done():
     result = auth.complete_log_in(request.headers)
     #if "error" in result:
