@@ -87,6 +87,7 @@ def login():
 @app.route("/.auth/login/aad/callback")
 def micro_redirect():
     result = auth.complete_log_in(request.args)
+    result['AAAAAAAAAAAA'] = 'AAAAAAAAAAAAAA'
     #session["_auth_flow"] = result
     if "error" in result:
         return redirect('/select-login')
