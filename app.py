@@ -94,7 +94,8 @@ def micro_redirect():
 
 @app.route("/.auth/login/done")
 def micro_login_done():
-    result = auth.complete_log_in(request.headers)
+    result = auth.complete_log_in(request.args)
+    result['AAAAA'] = 'AAAAAAAAAAAa'
     #if "error" in result:
     #    return redirect('/select-login')
     #session["_auth_flow"] = "aaaaaaaa"
