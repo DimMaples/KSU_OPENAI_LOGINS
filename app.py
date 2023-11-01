@@ -84,7 +84,7 @@ def login():
         redirect_uri="https://ksu24ai-restore-bf97.azurewebsites.net/.auth/login/aad/callback/",
     ))
 
-@app.route("/.auth/login/aad/callback/")
+@app.route("/.auth/login/aad/callback")
 def micro_redirect():
     result = auth.complete_log_in(request.args)
     session["_auth_flow"] = result
