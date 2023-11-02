@@ -48,11 +48,11 @@ def static_file(path):
     #return responce
         #return render_template('/static/index.html', result = result)
 
-@app.route("/chat", defaults={"path": "index.html"})
-@app.route("/<path:path>")
-def static_file(path):
-    responce = app.send_static_file(path)
-    return responce        
+#@app.route("/chat", defaults={"path": "index.html"})
+#@app.route("/<path:path>")
+#def static_file(path):
+#    responce = app.send_static_file(path)
+#    return responce        
 
 @app.route('/google/')
 def google():
@@ -86,19 +86,20 @@ def google_auth():
 def login():
     return render_template("login.html", version="1", **auth.log_in(
         ["User.ReadBasic.All"], # Have user consent to scopes during log-in
-        redirect_uri="https://ksu24ai-restore-bf97.azurewebsites.net/.auth/login/aad/callback",
+        redirect_uri="https://ksu24ai-restore-bf97.azurewebsites.net/.auth/login/aad",
     ))
 
-@app.route("/.auth/login/aad")
-def micro_redirect():
-    result = auth.complete_log_in(request.args)
-    result['AAAAAAAAAAAA'] = 'AAAAAAAAAAAAAA'
-    #session["_auth_flow"] = result
-    if "error" in result:
-        return redirect('/select-login')
-    return redirect(url_for("static_file"))
+#DONT FORGET THAT I SWITCHED CALLBACKS
+#@app.route("/.auth/login/aad/callback")
+#def micro_redirect():
+#    result = auth.complete_log_in(request.args)
+#    result['AAAAAAAAAAAA'] = 'AAAAAAAAAAAAAA'
+#    #session["_auth_flow"] = result
+#    if "error" in result:
+#        return redirect('/select-login')
+#    return redirect(url_for("static_file"))
 
-@app.route("/.auth/login/aad/callback")
+@app.route("/.auth/login/aad")
 def micro_redirect():
     result = auth.complete_log_in(request.args)
     result['AAAAAAAAAAAA'] = 'AAAAAAAAAAAAAA'
