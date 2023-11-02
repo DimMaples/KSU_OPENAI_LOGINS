@@ -47,7 +47,12 @@ def static_file(path):
     return render_template('select.html', result = responce.headers)
     #return responce
         #return render_template('/static/index.html', result = result)
-     
+
+@app.route("/chat", defaults={"path": "index.html"})
+@app.route("/<path:path>")
+def static_file(path):
+    responce = app.send_static_file(path)
+    return responce        
 
 @app.route('/google/')
 def google():
@@ -84,6 +89,15 @@ def login():
         redirect_uri="https://ksu24ai-restore-bf97.azurewebsites.net/.auth/login/aad/callback",
     ))
 
+@app.route("/.auth/login/aad")
+def micro_redirect():
+    result = auth.complete_log_in(request.args)
+    result['AAAAAAAAAAAA'] = 'AAAAAAAAAAAAAA'
+    #session["_auth_flow"] = result
+    if "error" in result:
+        return redirect('/select-login')
+    return redirect(url_for("static_file"))
+
 @app.route("/.auth/login/aad/callback")
 def micro_redirect():
     result = auth.complete_log_in(request.args)
@@ -92,6 +106,7 @@ def micro_redirect():
     if "error" in result:
         return redirect('/select-login')
     return redirect(url_for("static_file"))
+
 
 @app.route("/.auth/login/done")
 def micro_login_done():
